@@ -1,5 +1,8 @@
 package chat;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -73,13 +76,20 @@ public class udp {
 			System.out.println("S");
 			testudp = new udp("localhost", 1055, 1156);
 			System.out.println(testudp.ports.output);
-			for (int i = 0; i < 10; i ++) {
-				testudp.send(new message("ALL", "N/A", Integer.toString(i)));
-				 try {
+			BufferedReader in=new BufferedReader(new InputStreamReader(System.in)); 
+			while (true) {
+				String txt =new String();
+				try {
+					txt = in.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				testudp.send(new message("ALL", "N/A", txt));
+				 /* try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {
 					System.err.println(e);
-				}
+				} */
 			}
 		} else {
 			System.out.println("R");
