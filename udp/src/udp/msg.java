@@ -27,20 +27,30 @@ class msgThread extends Thread {
 		in=new BufferedReader(new InputStreamReader(System.in));
 	}
 	
-	public void run(){
-		String inmsg = new String();
+	public void send() {
 		String outmsg = new String();
-		while (true) try {	
-			if (type == 0){
-				outmsg = in.readLine();
-				sender.sendmsg(name+" : "+outmsg);
-			} else {
-				inmsg = receiver.receivemsg();
-				if (inmsg.length()>0) System.out.println(inmsg);
-			}
-			
+		try {
+			outmsg = in.readLine();
 		} catch (IOException e) {
 			System.err.println(e);
+		}
+		sender.sendmsg(name+" : "+outmsg);
+	}
+	
+	public void receive() {
+		String inmsg = new String();
+		inmsg = receiver.receivemsg();
+		if (inmsg.length()>0) System.out.println(inmsg);
+	}
+	
+	public void run(){
+		while (true)  {	
+			if (type == 0){
+				send();
+			} else {
+				receive();
+			}
+
 		}
 	}
 }
